@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     */
     var boardStatus = Array(3){IntArray(3)}
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun initBoardStatus() {
         for(i in 0..2){
             for(j in 0..2){
-                boardStatus[i][j] = -1
+                boardStatus[i][j] = -99
                 board[i][j].isEnabled = true
                 board[i][j].text = ""
 
@@ -114,11 +115,63 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             isEnabled = false
             setText(text)
         }
-
-        text = if(text == "X") "0" else "X"
-        tvHead.setText("Player $text turn")
         boardStatus[row][col] = value
 
-        PLAYER = !player
+        val gameComp = isGameWon()
+
+        if(!gameComp[0]) {
+            text = if (text == "X") "0" else "X"
+            tvHead.setText("Player $text turn")
+            PLAYER = !player
+        }
+
+        else {
+            if(gameComp[1])
+                text = "Player X won the game!!!"
+            else
+                text = "Player 0 won the game!!!"
+
+            tvHead.setText(text)
+
+            for (i in board) {
+                for (b in i) {
+                    b.isEnabled = false
+                }
+            }
+        }
+
+        TURNS++
+
+        if(TURNS == 9)
+        {
+            tvHead.setText("It's a draw!")
+        }
+
+    }
+
+    private fun isGameWon(): Array<Boolean> {
+        var winStatus  =  Array(2){false}
+
+        // Horizontal check
+        for(i in 0..2) {
+            var sum = 0
+            for(j in 0..2) {
+                sum += boardStatus[i][j]
+            }
+
+            if(sum == 3)
+            {
+                winStatus[0] = true
+                winStatus[1] = true
+                break
+            }
+            else if(sum == 0)
+            {
+                winStatus[0] = true
+                winStatus[1] = false
+                break
+            }
+        }
+        return winStatus
     }
 }
