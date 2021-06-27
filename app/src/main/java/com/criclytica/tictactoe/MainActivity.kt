@@ -2,9 +2,11 @@ package com.criclytica.tictactoe
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -161,17 +163,61 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             if(sum == 3)
             {
+                Log.i("TTT", "Horizontal passed")
                 winStatus[0] = true
                 winStatus[1] = true
                 break
             }
             else if(sum == 0)
             {
+                Log.i("TTT", "Horizontal passed")
                 winStatus[0] = true
                 winStatus[1] = false
                 break
             }
         }
+
+        // Vertical check
+        for(j in 0..2) {
+            var sum = 0
+            for(i in 0..2) {
+                sum += boardStatus[i][j]
+            }
+
+            if(sum == 3)
+            {
+                Log.i("TTT", "Vertical passed")
+                winStatus[0] = true
+                winStatus[1] = true
+                break
+            }
+            else if(sum == 0)
+            {
+                Log.i("TTT", "Vertical passed")
+                winStatus[0] = true
+                winStatus[1] = false
+                break
+            }
+        }
+
+
+        // Diagonal check
+        if(boardStatus[0][0] == boardStatus[1][1] && boardStatus[1][1] == boardStatus[2][2] && boardStatus[0][0] != -99)
+        {
+            Log.i("TTT", "Diagonal 1 passed")
+            winStatus[0] = true
+            winStatus[1] = boardStatus[0][0] == 1
+        }
+
+
+        if(boardStatus[2][0] == boardStatus[1][1] && boardStatus[1][1] == boardStatus[0][2] && boardStatus[1][1] != -99)
+        {
+            Log.i("TTT", "Diagonal 2 passed")
+            winStatus[0] = true
+            winStatus[1] = boardStatus[1][1] == 1
+        }
+
+
         return winStatus
     }
 }
