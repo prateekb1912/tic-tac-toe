@@ -11,6 +11,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     // Initialize the 2D array of buttons displayed on screen
     lateinit var board: Array<Array<Button>>
 
+    // Define player variable to determine current player
+    var PLAYER = 0
+
+    // Define how many turns have been played
+    var TURN = 0
+
+    /*
+    Define a 2D array to determine the game status so as to avoid
+    traversing our board
+    */
+    var boardStatus = Array(3){IntArray(3)}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,6 +49,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         if (v != null) {
+             TODO("Bind each button to own logic to change text from X to O and vice-versa")
             when(v.id) {
                 R.id.btn1 -> {}
                 R.id.btn2 -> {}
