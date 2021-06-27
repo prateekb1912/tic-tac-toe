@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.log
 
@@ -66,7 +67,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 board[i][j].isEnabled = true
                 board[i][j].text = ""
 
-                tvHead.text = "Player X turn"
+                tvHead.apply {
+                    setText("Player X turn")
+                    setTextColor(ContextCompat.getColor(context, R.color.red))
+                }
             }
         }
     }
@@ -113,9 +117,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         var text = if(player) "X" else "0"
         val value = if(player) 1 else 0
 
+        var color = if(player) R.color.red else R.color.green
+
         board[row][col].apply {
             isEnabled = false
             setText(text)
+            setTextColor(ContextCompat.getColor(context, color))
         }
         boardStatus[row][col] = value
 
@@ -123,7 +130,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         if(!gameComp[0]) {
             text = if (text == "X") "0" else "X"
-            tvHead.setText("Player $text turn")
+            color = if(!player) R.color.red else R.color.green
+
+            tvHead.apply {
+                setText("Player $text turn")
+                setTextColor(ContextCompat.getColor(context, color))
+            }
             PLAYER = !player
         }
 
@@ -133,7 +145,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             else
                 text = "Player 0 won the game!!!"
 
-            tvHead.setText(text)
+            tvHead.apply {
+                setText(text)
+                setTextColor(ContextCompat.getColor(context, color))
+            }
 
             for (i in board) {
                 for (b in i) {
@@ -163,14 +178,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             if(sum == 3)
             {
-                Log.i("TTT", "Horizontal passed")
                 winStatus[0] = true
                 winStatus[1] = true
                 break
             }
             else if(sum == 0)
             {
-                Log.i("TTT", "Horizontal passed")
                 winStatus[0] = true
                 winStatus[1] = false
                 break
@@ -186,14 +199,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             if(sum == 3)
             {
-                Log.i("TTT", "Vertical passed")
                 winStatus[0] = true
                 winStatus[1] = true
                 break
             }
             else if(sum == 0)
             {
-                Log.i("TTT", "Vertical passed")
                 winStatus[0] = true
                 winStatus[1] = false
                 break
@@ -204,7 +215,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // Diagonal check
         if(boardStatus[0][0] == boardStatus[1][1] && boardStatus[1][1] == boardStatus[2][2] && boardStatus[0][0] != -99)
         {
-            Log.i("TTT", "Diagonal 1 passed")
             winStatus[0] = true
             winStatus[1] = boardStatus[0][0] == 1
         }
@@ -212,7 +222,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         if(boardStatus[2][0] == boardStatus[1][1] && boardStatus[1][1] == boardStatus[0][2] && boardStatus[1][1] != -99)
         {
-            Log.i("TTT", "Diagonal 2 passed")
             winStatus[0] = true
             winStatus[1] = boardStatus[1][1] == 1
         }

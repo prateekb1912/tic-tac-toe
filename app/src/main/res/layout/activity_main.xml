@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Player X turn"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/cardview_dark_background"
+        android:textColor="@color/green"
         android:textSize="24sp"
         android:typeface="serif"
         android:textStyle="bold"
