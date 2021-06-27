@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     var PLAYER = 0
 
     // Define how many turns have been played
-    var TURN = 0
+    var TURNS = 0
 
     /*
     Define a 2D array to determine the game status so as to avoid
@@ -41,9 +41,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        TODO("Implement logic to reset the board")
-        btnReset.setOnClickListener{
+        initBoardStatus()
 
+        btnReset.setOnClickListener{
+            PLAYER = 0
+            TURNS = 0
+            initBoardStatus()
+        }
+    }
+
+    /*
+    A function to initialize our board :
+     setting the status to -1,
+     enabling all buttons,
+     and setting all texts to empty
+     */
+    private fun initBoardStatus() {
+        for(i in 0..2){
+            for(j in 0..2){
+                boardStatus[i][j] = -1
+                board[i][j].isEnabled = true
+                board[i][j].text = ""
+            }
         }
     }
 
