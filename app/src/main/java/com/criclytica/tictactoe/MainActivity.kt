@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         initBoardStatus()
 
         btnReset.setOnClickListener{
-            PLAYER = 0
+            PLAYER = true
             TURNS = 0
             initBoardStatus()
         }
@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 boardStatus[i][j] = -1
                 board[i][j].isEnabled = true
                 board[i][j].text = ""
+
+                tvHead.text = "Player X turn"
             }
         }
     }
@@ -100,8 +102,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    /*
+    A function to update the board and status values whenever a player
+    completes their turn and clicks the button
+     */
     private fun updateValue(row: Int, col: Int, player: Boolean) {
-        val text = if(player) "X" else "0"
+        var text = if(player) "X" else "0"
         val value = if(player) 1 else 0
 
         board[row][col].apply {
@@ -109,7 +115,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             setText(text)
         }
 
+        text = if(text == "X") "0" else "X"
+        tvHead.setText("Player $text turn")
         boardStatus[row][col] = value
 
+        PLAYER = !player
     }
 }
