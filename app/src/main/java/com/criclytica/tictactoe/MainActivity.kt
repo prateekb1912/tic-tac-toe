@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var board: Array<Array<Button>>
 
     // Define player variable to determine current player
-    var PLAYER = 0
+    var PLAYER = true
 
     // Define how many turns have been played
     var TURNS = 0
@@ -68,18 +68,48 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         if (v != null) {
-             TODO("Bind each button to own logic to change text from X to O and vice-versa")
-            when(v.id) {
-                R.id.btn1 -> {}
-                R.id.btn2 -> {}
-                R.id.btn3 -> {}
-                R.id.btn4 -> {}
-                R.id.btn5 -> {}
-                R.id.btn6 -> {}
-                R.id.btn7 -> {}
-                R.id.btn8 -> {}
-                R.id.btn9 -> {}
+             when(v.id) {
+                R.id.btn1 -> {
+                    updateValue(row = 0, col = 0, player = PLAYER)
+                }
+                R.id.btn2 -> {
+                    updateValue(row = 0, col = 1, player = PLAYER)
+                }
+                R.id.btn3 -> {
+                    updateValue(row = 0, col = 2, player = PLAYER)
+                }
+                R.id.btn4 -> {
+                    updateValue(row = 1, col = 0, player = PLAYER)
+                }
+                R.id.btn5 -> {
+                    updateValue(row = 1, col = 1, player = PLAYER)
+                }
+                R.id.btn6 -> {
+                    updateValue(row = 1, col = 2, player = PLAYER)
+                }
+                R.id.btn7 -> {
+                    updateValue(row = 2, col = 0, player = PLAYER)
+                }
+                R.id.btn8 -> {
+                    updateValue(row = 2, col = 1, player = PLAYER)
+                }
+                R.id.btn9 -> {
+                    updateValue(row = 2, col = 2, player = PLAYER)
+                }
             }
         }
+    }
+
+    private fun updateValue(row: Int, col: Int, player: Boolean) {
+        val text = if(player) "X" else "0"
+        val value = if(player) 1 else 0
+
+        board[row][col].apply {
+            isEnabled = false
+            setText(text)
+        }
+
+        boardStatus[row][col] = value
+
     }
 }
