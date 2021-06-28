@@ -1,11 +1,14 @@
 package com.criclytica.tictactoe
 
 import android.annotation.SuppressLint
+import android.net.*
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     var boardStatus = Array(3){IntArray(3)}
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
