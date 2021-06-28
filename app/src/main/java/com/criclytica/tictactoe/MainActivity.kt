@@ -1,5 +1,6 @@
 package com.criclytica.tictactoe
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +8,6 @@ import android.view.View
 import android.widget.Button
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -113,6 +113,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     A function to update the board and status values whenever a player
     completes their turn and clicks the button
      */
+    @SuppressLint("ResourceAsColor")
     private fun updateValue(row: Int, col: Int, player: Boolean) {
         var text = if(player) "X" else "0"
         val value = if(player) 1 else 0
@@ -161,7 +162,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         if(TURNS == 9)
         {
-            tvHead.setText("It's a draw!")
+            if(!gameComp[0]) {
+                tvHead.apply {
+                    setText("It's a draw!")
+                    setTextColor(R.color.black)
+                }
+            }
+            else
+            {
+                if(gameComp[1])
+                    text = "Player X won the game!!!"
+                else
+                    text = "Player 0 won the game!!!"
+
+                tvHead.apply {
+                    setText(text)
+                    setTextColor(ContextCompat.getColor(context, color))
+                }
+            }
         }
 
     }
