@@ -49,6 +49,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
+        checkNetworkStatus()
+
         initBoardStatus()
 
         btnReset.setOnClickListener{
@@ -56,6 +58,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             TURNS = 0
             initBoardStatus()
         }
+    }
+
+    private fun checkNetworkStatus(): Int {
+        return 1
     }
 
     /*
