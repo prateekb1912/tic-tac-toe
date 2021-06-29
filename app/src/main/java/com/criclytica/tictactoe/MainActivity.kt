@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import com.criclytica.tictactoe.R.color
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     // Define how many turns have been played
     var TURNS = 0
 
+    // The last move which was played in the game
+    var lastMove:Array<Int> =  Array(2) {0}
+
     /*
     Define a 2D array to determine the game status so as to avoid
     traversing our board
@@ -30,6 +34,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     var boardStatus = Array(3){IntArray(3)}
 
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,19 +54,38 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        checkNetworkStatus()
-
         initBoardStatus()
 
         btnReset.setOnClickListener{
             PLAYER = true
             TURNS = 0
             initBoardStatus()
+            btnUndo.isEnabled = true
         }
-    }
 
-    private fun checkNetworkStatus(): Int {
-        return 1
+        btnUndo.setOnClickListener {
+            var prevText = board[lastMove[0]][lastMove[1]].text
+
+            board[lastMove[0]][lastMove[1]].apply {
+                text = ""
+                isEnabled = true
+            }
+
+            if(prevText == "X")
+            {
+                tvHead.apply {
+                    text = "Player X turn"
+                    setTextColor(R.color.red)
+                }
+                PLAYER = true
+            }
+            else
+                tvHead.apply {
+                    text = "Player O turn"
+                    setTextColor(R.color.green)
+                }
+            PLAYER = false
+        }
     }
 
     /*
@@ -79,7 +103,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
                 tvHead.apply {
                     setText("Player X turn")
-                    setTextColor(ContextCompat.getColor(context, R.color.red))
+                    setTextColor(ContextCompat.getColor(context, color.red))
                 }
             }
         }
@@ -90,30 +114,48 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
              when(v.id) {
                 R.id.btn1 -> {
                     updateValue(row = 0, col = 0, player = PLAYER)
+                    lastMove[0] = 0
+                    lastMove[1] = 0
                 }
                 R.id.btn2 -> {
                     updateValue(row = 0, col = 1, player = PLAYER)
+                    lastMove[0] = 0
+                    lastMove[1] = 1
                 }
                 R.id.btn3 -> {
                     updateValue(row = 0, col = 2, player = PLAYER)
+                    lastMove[0] = 0
+                    lastMove[1] = 2
                 }
                 R.id.btn4 -> {
                     updateValue(row = 1, col = 0, player = PLAYER)
+                    lastMove[0] = 1
+                    lastMove[1] = 0
                 }
                 R.id.btn5 -> {
                     updateValue(row = 1, col = 1, player = PLAYER)
+                    lastMove[0] = 1
+                    lastMove[1] = 1
                 }
                 R.id.btn6 -> {
                     updateValue(row = 1, col = 2, player = PLAYER)
+                    lastMove[0] = 1
+                    lastMove[1] = 2
                 }
                 R.id.btn7 -> {
                     updateValue(row = 2, col = 0, player = PLAYER)
+                    lastMove[0] = 2
+                    lastMove[1] = 0
                 }
                 R.id.btn8 -> {
                     updateValue(row = 2, col = 1, player = PLAYER)
+                    lastMove[0] = 2
+                    lastMove[1] = 1
                 }
                 R.id.btn9 -> {
                     updateValue(row = 2, col = 2, player = PLAYER)
+                    lastMove[0] = 2
+                    lastMove[1] = 2
                 }
             }
         }
@@ -125,10 +167,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      */
     @SuppressLint("ResourceAsColor")
     private fun updateValue(row: Int, col: Int, player: Boolean) {
-        var text = if(player) "X" else "0"
+        var text = if(player) "X" else "O"
         val value = if(player) 1 else 0
 
-        var color = if(player) R.color.red else R.color.green
+        var color = if(player) color.red else color.green
 
         board[row][col].apply {
             isEnabled = false
@@ -140,7 +182,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val gameComp = isGameWon()
 
         if(!gameComp[0]) {
-            text = if (text == "X") "0" else "X"
+            text = if (text == "X") "O" else "X"
             color = if(!player) R.color.red else R.color.green
 
             tvHead.apply {
@@ -152,9 +194,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         else {
             if(gameComp[1])
-                text = "Player X won the game!!!"
+                text = "Player X won!"
             else
-                text = "Player 0 won the game!!!"
+                text = "Player O won!"
 
             tvHead.apply {
                 setText(text)
@@ -165,6 +207,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 for (b in i) {
                     b.isEnabled = false
                 }
+            }
+
+            btnUndo.apply {
+                isEnabled = false
+                color = R.color.light_gray
             }
         }
 
@@ -189,6 +236,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     setText(text)
                     setTextColor(ContextCompat.getColor(context, color))
                 }
+            }
+
+            btnUndo.apply {
+                isEnabled = false
+                color = R.color.light_gray
             }
         }
 
